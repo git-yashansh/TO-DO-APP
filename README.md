@@ -47,20 +47,7 @@ todo-app/
 - Click the 🌙/☀️ button in the top-right corner to toggle between themes
 - Your theme preference is automatically saved
 
-## 🎨 Customization
 
-### Colors
-The app uses CSS custom properties (variables) for easy customization:
-
-
-### Animations
-Modify animation durations and effects in the CSS:
-
-```css
-.task-item {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-```
 
 ## 🌟 Key Technologies
 
@@ -87,19 +74,7 @@ Modify animation durations and effects in the CSS:
 
 ## 🔧 Development
 
-### Local Development
-For the best development experience, use a local server:
 
-```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js
-npx serve .
-
-# Using PHP
-php -S localhost:8000
-```
 
 ### File Structure Details
 
@@ -107,17 +82,8 @@ php -S localhost:8000
 - **`style.css`** - All styling, animations, and responsive design
 - **`script.js`** - Task management logic and theme switching
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -135,4 +101,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ⭐ **Star this repository if you found it helpful!**
 
-Made with ❤️ and lots of ☕
+Made with ❤️ and lots of ☕ by your fellow kumar yashansh!!
