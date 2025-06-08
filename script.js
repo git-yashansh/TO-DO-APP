@@ -1,162 +1,166 @@
 class TodoApp {
     constructor() {
-        this.tasks = this.loadTasks();
-        this.theme = this.loadTheme();
-        this.taskInput = document.getElementById('taskInput');
+        // get all elements from DOM
+        this.inpt = document.getElementById('taskInput');
         this.addBtn = document.getElementById('addBtn');
         this.taskList = document.getElementById('taskList');
-        this.taskCount = document.getElementById('taskCount');
-        this.clearAllBtn = document.getElementById('clearAllBtn');
-        this.themeToggle = document.getElementById('themeToggle');
-        
-        this.initTheme();
-        this.initEventListeners();
-        this.displayTasks();
-        this.updateTaskCount();
+        this.taskInfo = document.getElementById('taskCount');
+        this.clearBtn = document.getElementById('clearAllBtn');
+        this.themeBtn = document.getElementById('themeToggle');
+
+        // load data
+        this.tasks = this.loadTaskss();
+        this.currTheme = this.getTheme();
+
+        // setup app
+        this.setTheme();
+        this.addEvents();
+        this.showTasks();
+        this.updateTaskInfo();
     }
 
-    initTheme() {
-        document.documentElement.setAttribute('data-theme', this.theme);
-        this.themeToggle.textContent = this.theme === 'dark' ? '☀️' : '🌙';
+    setTheme() {
+        document.documentElement.setAttribute('data-theme', this.currTheme);
+        this.themeBtn.textContent = this.currTheme === 'dark' ? '☀️' : '🌙';
     }
 
-    initEventListeners() {
+    addEvents() {
         this.addBtn.addEventListener('click', () => this.addTask());
-        this.taskInput.addEventListener('keypress', (e) => {
+
+        this.inpt.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 this.addTask();
             }
         });
-        this.clearAllBtn.addEventListener('click', () => this.deleteAllTasks());
-        this.themeToggle.addEventListener('click', () => this.toggleTheme());
+
+        this.clearBtn.addEventListener('click', () => this.removeAll());
+
+        this.themeBtn.addEventListener('click', () => this.changeTheme());
     }
 
-    toggleTheme() {
-        this.theme = this.theme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', this.theme);
-        this.themeToggle.textContent = this.theme === 'dark' ? '☀️' : '🌙';
+    changeTheme() {
+        this.currTheme = this.currTheme === 'light' ? 'dark' : 'light';
+        this.setTheme();
         this.saveTheme();
-        
-        // Add a subtle animation to the theme toggle
-        this.themeToggle.style.transform = 'scale(0.8) rotate(180deg)';
+
+        this.themeBtn.style.transform = 'scale(0.8) rotate(180deg)';
         setTimeout(() => {
-            this.themeToggle.style.transform = '';
+            this.themeBtn.style.transform = '';
         }, 200);
     }
 
     addTask() {
-        const taskText = this.taskInput.value.trim();
-        
-        if (taskText === '') {
-            this.shakeInput();
+        const text = this.inpt.value.trim();
+
+        if (!text) {
+            this.shakeInpt();
             return;
         }
 
-        const newTask = {
+        const task = {
             id: Date.now(),
-            text: taskText,
+            text: text,
             completed: false,
             createdAt: new Date().toISOString()
         };
 
-        this.tasks.push(newTask);
+        this.tasks.push(task);
         this.saveTasks();
-        this.displayTasks();
-        this.updateTaskCount();
-        this.taskInput.value = '';
-        this.taskInput.focus();
-        
-        // Add success animation to add button
-        this.addBtn.style.transform = 'scale(0.95)';
+        this.showTasks();
+        this.updateTaskInfo();
+
+        this.inpt.value = '';
+        this.inpt.focus();
+
+        this.addBtn.style.transform = 'scale(0.9)';
         setTimeout(() => {
             this.addBtn.style.transform = '';
         }, 150);
     }
 
-    shakeInput() {
-        this.taskInput.style.animation = 'shake 0.5s ease-in-out';
-        this.taskInput.style.borderColor = 'var(--danger)';
+    shakeInpt() {
+        this.inpt.style.animation = 'shake 0.5s';
+        this.inpt.style.borderColor = 'red';
         setTimeout(() => {
-            this.taskInput.style.animation = '';
-            this.taskInput.style.borderColor = '';
+            this.inpt.style.animation = '';
+            this.inpt.style.borderColor = '';
         }, 500);
     }
 
-    displayTasks() {
+    showTasks() {
         this.taskList.innerHTML = '';
 
-        if (this.tasks.length === 0) {
-            this.taskList.innerHTML = '<div class="empty-state">No tasks yet. Add one above! ✨</div>';
+        if (this.tasks.length == 0) {
+            this.taskList.innerHTML = `<div class="empty-state">No tasks yet. Add one pls 😅</div>`;
             return;
         }
 
-        this.tasks.forEach((task, index) => {
-            const taskItem = document.createElement('li');
-            taskItem.className = `task-item ${task.completed ? 'completed' : ''}`;
-            taskItem.style.animationDelay = `${index * 0.1}s`;
-            taskItem.innerHTML = `
-                <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} 
-                       onchange="todoApp.toggleTask(${task.id})">
-                <span class="task-text">${task.text}</span>
-                <button class="delete-btn" onclick="todoApp.deleteTask(${task.id})">Delete</button>
+        this.tasks.forEach((t, i) => {
+            const li = document.createElement('li');
+            li.className = `task-item ${t.completed ? 'completed' : ''}`;
+            li.style.animationDelay = `${i * 0.1}s`;
+
+            li.innerHTML = `
+                <input type="checkbox" class="task-checkbox" ${t.completed ? 'checked' : ''}
+                    onchange="todoApp.toggleDone(${t.id})">
+                <span class="task-text">${t.text}</span>
+                <button class="delete-btn" onclick="todoApp.deleteTask(${t.id})">Delete</button>
             `;
-            this.taskList.appendChild(taskItem);
+
+            this.taskList.appendChild(li);
         });
     }
 
-    toggleTask(taskId) {
-        const task = this.tasks.find(t => t.id === taskId);
-        if (task) {
-            task.completed = !task.completed;
+    toggleDone(id) {
+        const t = this.tasks.find(x => x.id === id);
+        if (t) {
+            t.completed = !t.completed;
             this.saveTasks();
-            this.displayTasks();
-            this.updateTaskCount();
+            this.showTasks();
+            this.updateTaskInfo();
         }
     }
 
-    deleteTask(taskId) {
-        const taskElement = event.target.closest('.task-item');
-        taskElement.classList.add('removing');
-        
+    deleteTask(id) {
+        const el = event.target.closest('.task-item');
+        el.classList.add('removing');
+
         setTimeout(() => {
-            this.tasks = this.tasks.filter(t => t.id !== taskId);
+            this.tasks = this.tasks.filter(t => t.id !== id);
             this.saveTasks();
-            this.displayTasks();
-            this.updateTaskCount();
+            this.showTasks();
+            this.updateTaskInfo();
         }, 400);
     }
 
-    deleteAllTasks() {
-        if (this.tasks.length === 0) return;
-        
-        if (confirm('Are you sure you want to delete all tasks?')) {
-            // Add staggered removal animation
-            const taskItems = document.querySelectorAll('.task-item');
-            taskItems.forEach((item, index) => {
-                setTimeout(() => {
-                    item.classList.add('removing');
-                }, index * 100);
+    removeAll() {
+        if (!this.tasks.length) return;
+
+        if (confirm('Sure to delete all tasks??')) {
+            const items = document.querySelectorAll('.task-item');
+            items.forEach((el, i) => {
+                setTimeout(() => el.classList.add('removing'), i * 100);
             });
-            
+
             setTimeout(() => {
                 this.tasks = [];
                 this.saveTasks();
-                this.displayTasks();
-                this.updateTaskCount();
-            }, taskItems.length * 100 + 400);
+                this.showTasks();
+                this.updateTaskInfo();
+            }, items.length * 100 + 400);
         }
     }
 
-    updateTaskCount() {
-        const remainingTasks = this.tasks.filter(task => !task.completed).length;
-        const totalTasks = this.tasks.length;
-        
-        if (totalTasks === 0) {
-            this.taskCount.textContent = 'No tasks';
-        } else if (remainingTasks === 0) {
-            this.taskCount.textContent = 'All tasks completed! 🎉';
+    updateTaskInfo() {
+        const total = this.tasks.length;
+        const left = this.tasks.filter(t => !t.completed).length;
+
+        if (total === 0) {
+            this.taskInfo.textContent = 'No task availble';
+        } else if (left === 0) {
+            this.taskInfo.textContent = 'All done bro! 🎉';
         } else {
-            this.taskCount.textContent = `${remainingTasks} of ${totalTasks} tasks remaining`;
+            this.taskInfo.textContent = `${left} of ${total} still left`;
         }
     }
 
@@ -164,23 +168,22 @@ class TodoApp {
         localStorage.setItem('todoTasks', JSON.stringify(this.tasks));
     }
 
-    loadTasks() {
-        const savedTasks = localStorage.getItem('todoTasks');
-        return savedTasks ? JSON.parse(savedTasks) : [];
+    loadTaskss() {
+        const saved = localStorage.getItem('todoTasks');
+        return saved ? JSON.parse(saved) : [];
     }
 
     saveTheme() {
-        localStorage.setItem('todoTheme', this.theme);
+        localStorage.setItem('todoTheme', this.currTheme);
     }
 
-    loadTheme() {
-        const savedTheme = localStorage.getItem('todoTheme');
-        if (savedTheme) return savedTheme;
-        
-        // Check user's system preference
+    getTheme() {
+        const theme = localStorage.getItem('todoTheme');
+        if (theme) return theme;
+
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
 }
 
-// Initialize the app when the page loads
+// start it 🚀
 const todoApp = new TodoApp();
