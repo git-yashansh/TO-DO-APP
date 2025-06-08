@@ -4,7 +4,7 @@ Stay organized and boost your productivity with this beautifully designed To-Do 
 
 A beautiful, feature-rich to-do application with dark purple theme, smooth animations, and modern UI design. Built with vanilla HTML, CSS, and JavaScript.
 
-![To-Do App Preview](https://img.shields.io/badgeio/badge/CSS3-1572B6?logo=css3&logoColor=whiteshields.io/badge/JavaScript-F7DF1E?logo=javascript&logo
+
 
 - **🌙 Dark/Light Theme Toggle** - Switch between stunning dark purple and clean light themes
 - **🎨 Smooth Animations** - Beautiful transitions, hover effects, and interactive feedback
@@ -30,22 +30,6 @@ todo-app/
 └── README.md           # Project documentation
 ```
 
-## 🛠️ Installation
-
-1. **Clone or Download** this repository
-   ```bash
-   git clone https://github.com/yourusername/animated-todo-app.git
-   ```
-
-2. **Navigate to the project folder**
-   ```bash
-   cd animated-todo-app
-   ```
-
-3. **Open the app**
-   - Double-click on `index.html`, or
-   - Right-click → "Open with" → Your preferred browser, or
-   - Use a local server (recommended for development)
 
 ## 💻 Usage
 
@@ -68,14 +52,6 @@ todo-app/
 ### Colors
 The app uses CSS custom properties (variables) for easy customization:
 
-```css
-:root {
-    --accent-primary: #48bb78;    /* Primary accent color */
-    --danger: #e53e3e;            /* Delete button color */
-    --text-primary: #2d3748;      /* Main text color */
-    /* ... more variables */
-}
-```
 
 ### Animations
 Modify animation durations and effects in the CSS:
@@ -151,9 +127,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-- **GitHub**: [@yourusername](https://github.com/yourusername)
-- **Email**: your.email@example.com
-- **Portfolio**: [yourportfolio.com](https://yourportfolio.com)
+- **GitHub**: https://github.com/git-yashansh
+- **Email**: kr.yashansh123@gmail.com
+
 
 ---
 
