@@ -3,25 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Animated To-Do App</title>
+    <title>Epic Todo App - Stay Productive</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
+        <!-- Header Section -->
         <div class="header">
-            <h1>My To-Do List</h1>
-            <button id="themeToggle" class="theme-toggle">🌙</button>
+            <div class="header-top">
+                <div class="title-section">
+                    <span class="app-emoji">📋</span>
+                    <h1>Your Epic To-Do List</h1>
+                </div>
+                <div class="header-controls">
+                    <!-- Live Clock -->
+                    <div class="clock-widget">
+                        <span class="clock-icon">🕐</span>
+                        <span id="currentTime">00:00:00</span>
+                    </div>
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle" class="theme-toggle">🌙</button>
+                </div>
+            </div>
+
+            <!-- Motivational Quote Section -->
+            <div class="motivation-section">
+                <div class="quote-container">
+                    <span class="quote-emoji">✨</span>
+                    <p id="motivationQuote" class="motivation-quote">
+                        "The way to get started is to quit talking and begin doing." - Walt Disney
+                    </p>
+                    <button id="newQuoteBtn" class="new-quote-btn">🔄</button>
+                </div>
+            </div>
+
+            <!-- Pomodoro Timer -->
+            <div class="timer-section">
+                <div class="timer-container">
+                    <span class="timer-emoji">🍅</span>
+                    <div class="timer-display">
+                        <span id="timerDisplay">25:00</span>
+                        <span id="timerLabel">Focus Time</span>
+                    </div>
+                    <div class="timer-controls">
+                        <button id="startTimer" class="timer-btn">▶️</button>
+                        <button id="pauseTimer" class="timer-btn">⏸️</button>
+                        <button id="resetTimer" class="timer-btn">🔄</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Input -->
             <div class="input-container">
-                <input type="text" id="taskInput" placeholder="Add a new task...">
-                <button id="addBtn">Add</button>
+                <div class="input-wrapper">
+                    <input type="text" id="taskInput" placeholder="Soch mat Task likh Dost!... ✨">
+                    <button id="addBtn" class="add-btn">
+                        <span class="btn-icon">➕</span>
+                        <span class="btn-text">Add Task</span>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="task-stats">
-            <span id="taskCount">0 tasks remaining</span>
-            <button id="clearAllBtn">Clear All</button>
+
+        <!-- Stats and Controls -->
+        <div class="task-controls">
+            <div class="task-stats">
+                <span id="taskCount" class="stat-item">
+                    <span class="stat-emoji">📊</span>
+                    <span id="activeCount">0</span> active
+                </span>
+                <span class="stat-divider">•</span>
+                <span class="stat-item">
+                    <span class="stat-emoji">✅</span>
+                    <span id="completedCount">0</span> completed
+                </span>
+            </div>
+
+            <div class="control-buttons">
+                <!-- Filter Buttons -->
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">
+                        <span class="filter-emoji">📋</span>
+                        All
+                    </button>
+                    <button class="filter-btn" data-filter="active">
+                        <span class="filter-emoji">⏳</span>
+                        Active
+                    </button>
+                    <button class="filter-btn" data-filter="completed">
+                        <span class="filter-emoji">✅</span>
+                        Completed
+                    </button>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-group">
+                    <button id="clearCompletedBtn" class="action-btn">
+                        <span class="btn-emoji">🗑️</span>
+                        Clear Completed
+                    </button>
+                    <button id="clearAllBtn" class="action-btn danger">
+                        <span class="btn-emoji">💥</span>
+                        Clear All
+                    </button>
+                    <button id="sortBtn" class="action-btn">
+                        <span class="btn-emoji">🔄</span>
+                        Sort
+                    </button>
+                </div>
+            </div>
         </div>
-        <ul id="taskList"></ul>
+
+        <!-- Task List -->
+        <div class="task-list-container">
+            <ul id="taskList" class="task-list"></ul>
+            
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state">
+                <div class="empty-emoji">📝</div>
+                <h3 class="empty-title">No tasks yet!</h3>
+                <p class="empty-message">Apna pehla task add karo aur apni productive journey shuru karo, dost! 🚀</p>
+            </div>
+
+            <!-- Completed State -->
+            <div id="completedState" class="empty-state" style="display: none;">
+                <div class="empty-emoji">🎉</div>
+                <h3 class="empty-title">All done Dost!</h3>
+                <p class="empty-message">Congratulations! You've completed all your tasks. Mehnat kr aage badh dost! 🎊</p>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span class="progress-emoji">📈</span>
+                    <span>Daily Progress</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievement Section -->
+        <div class="achievement-section">
+            <div id="achievementBadge" class="achievement-badge" style="display: none;">
+                <span class="achievement-emoji">🏆</span>
+                <span class="achievement-text">Achievement Unlocked!</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-content">
+                <p class="footer-main">
+                    Made with 💜 by Tera Dost <strong>Kumar Yashansh</strong> ---Stay Productive! 🚀
+                </p>
+                <div class="footer-quotes">
+                    <p class="productivity-tip">
+                        💡 <em>"Success is the sum of small efforts repeated day in and day out."</em>
+                    </p>
+                    <p class="encouragement">
+                        🌟 You're doing amazing! Keep pushing forward! 💪
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Task Template (Hidden) -->
+    <template id="taskTemplate">
+        <li class="task-item">
+            <div class="task-content">
+                <button class="task-toggle">
+                    <span class="task-emoji">📝</span>
+                </button>
+                <div class="task-details">
+                    <span class="task-text"></span>
+                    <div class="task-meta">
+                        <span class="task-date">📅 Today</span>
+                        <span class="task-priority" title="Click to change priority">🟡</span>
+                    </div>
+                </div>
+                <div class="task-actions">
+                    <button class="priority-btn" title="Change Priority">🎯</button>
+                    <button class="edit-btn" title="Edit Task">✏️</button>
+                    <button class="delete-btn" title="Delete Task">🗑️</button>
+                </div>
+            </div>
+        </li>
+    </template>
+
+    <!-- Audio for notifications -->
+    <audio id="completeSound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT" type="audio/wav">
+    </audio>
+
     <script src="script.js"></script>
 </body>
 </html>
